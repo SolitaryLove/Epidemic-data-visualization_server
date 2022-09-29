@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocketTest</title>
+</head>
+<body>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script> 
+<button id="send">发送请求</button><br>
+<script>
+    const send=document.querySelector('#send');
+    axios.defaults.baseURL='https://api.inews.qq.com/newsqa/v1/query/inner/publish/modules';
+    send.addEventListener('click',()=>{
+        axios({
+            url:'/list',
+            method:'GET',
+            params:{
+                modules:'areaTree'
+            }
+        }).then(
+            response=>{
+                // const areaTree=JSON.parse(response.data.data.areaTree);
+                // console.log(areaTree[0].name);
+                console.log(response.data);
+            }
+        );
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocketTest</title>
+</head>
+<body>
+<button id="connect">连接服务端</button><br>
+<button id="send" disabled="true">发送数据</button><br>
+从服务端接收数据如下：<br>
+<span id="recv"></span>
+<script>
+    const connect=document.querySelector('#connect');
+    const send=document.querySelector('#send');
+    const recv=document.querySelector('#recv');
+    let ws=null;
+    connect.addEventListener('click',()=>{
+        ws=new WebSocket('ws://localhost:9999');
+        ws.onopen=()=>{
+            console.log('连接服务端成功...');
+            send.disabled=false;
+        };
+        ws.onclose=()=>{
+            console.log('连接服务端失败...');
+            send.disabled=true;
+        };
+        ws.onmessage=msg=>{
+            console.log('接收到从服务端发送的数据');
+            console.log(msg);
+            console.log(msg.data);
+            recv.innerHTML=msg.data;
+        };
+    });
+    send.addEventListener('click',()=>{
+        // ws.send('hello socket from front');
+        ws.send(JSON.stringify({
+            action:'fullScreen',
+            dataType:'fullScreen',
+            chartName:'trend',
+            actionValue:true,
+        }));
+    });
+</script>
+</body>
+</html>
